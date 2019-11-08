@@ -1,0 +1,292 @@
+{
+  "definitions": {
+    "CatalogService": {
+      "kind": "service",
+      "@source": "srv/cat-service.cds"
+    },
+    "CatalogService.Books": {
+      "kind": "entity",
+      "@readonly": true,
+      "source": "be.tvc.logistic.Books",
+      "elements": {
+        "ID": {
+          "value": {
+            "=": "Books.ID"
+          },
+          "key": true,
+          "type": "cds.Integer",
+          "@cds.persistence.name": "ID"
+        },
+        "title": {
+          "value": {
+            "=": "Books.title"
+          },
+          "type": "cds.String",
+          "@cds.persistence.name": "TITLE"
+        },
+        "author": {
+          "value": {
+            "=": "Books.author"
+          },
+          "type": "cds.Association",
+          "target": "CatalogService.Authors",
+          "foreignKeys": {
+            "ID": {
+              "path": "ID",
+              "generatedFieldName": "author_ID",
+              "@cds.persistence.name": "ID"
+            }
+          },
+          "redirected": true,
+          "@cds.persistence.name": "AUTHOR"
+        },
+        "stock": {
+          "value": {
+            "=": "Books.stock"
+          },
+          "type": "cds.Integer",
+          "@cds.persistence.name": "STOCK"
+        },
+        "author_ID": {
+          "type": "cds.Integer",
+          "value": {
+            "=": "Books.author_ID"
+          },
+          "@odata.foreignKey4": "author",
+          "@cds.persistence.name": "AUTHOR_ID"
+        }
+      },
+      "@Capabilities.DeleteRestrictions.Deletable": false,
+      "@Capabilities.InsertRestrictions.Insertable": false,
+      "@Capabilities.UpdateRestrictions.Updatable": false,
+      "@cds.persistence.name": "CATALOGSERVICE_BOOKS"
+    },
+    "CatalogService.Authors": {
+      "kind": "entity",
+      "@readonly": true,
+      "source": "be.tvc.logistic.Authors",
+      "elements": {
+        "ID": {
+          "value": {
+            "=": "Authors.ID"
+          },
+          "key": true,
+          "type": "cds.Integer",
+          "@cds.persistence.name": "ID"
+        },
+        "name": {
+          "value": {
+            "=": "Authors.name"
+          },
+          "type": "cds.String",
+          "@cds.persistence.name": "NAME"
+        },
+        "books": {
+          "value": {
+            "=": "Authors.books"
+          },
+          "type": "cds.Association",
+          "target": "CatalogService.Books",
+          "cardinality": {
+            "targetMax": "*"
+          },
+          "onCond": {
+            "op": "=",
+            "args": [
+              {
+                "=": "books.author"
+              },
+              {
+                "=": "$self"
+              }
+            ]
+          },
+          "on": "books.author = $self",
+          "redirected": true,
+          "@cds.persistence.name": "BOOKS"
+        }
+      },
+      "@Capabilities.DeleteRestrictions.Deletable": false,
+      "@Capabilities.InsertRestrictions.Insertable": false,
+      "@Capabilities.UpdateRestrictions.Updatable": false,
+      "@cds.persistence.name": "CATALOGSERVICE_AUTHORS"
+    },
+    "CatalogService.Orders": {
+      "kind": "entity",
+      "@insertonly": true,
+      "source": "be.tvc.logistic.Orders",
+      "elements": {
+        "ID": {
+          "value": {
+            "=": "Orders.ID"
+          },
+          "key": true,
+          "type": "cds.UUID",
+          "@cds.persistence.name": "ID"
+        },
+        "book": {
+          "value": {
+            "=": "Orders.book"
+          },
+          "type": "cds.Association",
+          "target": "CatalogService.Books",
+          "foreignKeys": {
+            "ID": {
+              "path": "ID",
+              "generatedFieldName": "book_ID",
+              "@cds.persistence.name": "ID"
+            }
+          },
+          "redirected": true,
+          "@cds.persistence.name": "BOOK"
+        },
+        "buyer": {
+          "value": {
+            "=": "Orders.buyer"
+          },
+          "type": "cds.String",
+          "@cds.persistence.name": "BUYER"
+        },
+        "date": {
+          "value": {
+            "=": "Orders.date"
+          },
+          "type": "cds.DateTime",
+          "@cds.persistence.name": "DATE"
+        },
+        "amount": {
+          "value": {
+            "=": "Orders.amount"
+          },
+          "type": "cds.Integer",
+          "@cds.persistence.name": "AMOUNT"
+        },
+        "book_ID": {
+          "type": "cds.Integer",
+          "value": {
+            "=": "Orders.book_ID"
+          },
+          "@odata.foreignKey4": "book",
+          "@cds.persistence.name": "BOOK_ID"
+        }
+      },
+      "@cds.persistence.name": "CATALOGSERVICE_ORDERS"
+    },
+    "be.tvc.logistic.Books": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer",
+          "@cds.persistence.name": "ID"
+        },
+        "title": {
+          "type": "cds.String",
+          "@cds.persistence.name": "TITLE"
+        },
+        "author": {
+          "type": "cds.Association",
+          "target": "be.tvc.logistic.Authors",
+          "foreignKeys": {
+            "ID": {
+              "path": "ID",
+              "generatedFieldName": "author_ID",
+              "@cds.persistence.name": "ID"
+            }
+          },
+          "@cds.persistence.name": "AUTHOR"
+        },
+        "stock": {
+          "type": "cds.Integer",
+          "@cds.persistence.name": "STOCK"
+        },
+        "author_ID": {
+          "type": "cds.Integer",
+          "@odata.foreignKey4": "author",
+          "@cds.persistence.name": "AUTHOR_ID"
+        }
+      },
+      "@cds.persistence.name": "BE_TVC_LOGISTIC_BOOKS"
+    },
+    "be.tvc.logistic.Authors": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer",
+          "@cds.persistence.name": "ID"
+        },
+        "name": {
+          "type": "cds.String",
+          "@cds.persistence.name": "NAME"
+        },
+        "books": {
+          "type": "cds.Association",
+          "target": "be.tvc.logistic.Books",
+          "cardinality": {
+            "targetMax": "*"
+          },
+          "onCond": {
+            "op": "=",
+            "args": [
+              {
+                "=": "books.author"
+              },
+              {
+                "=": "$self"
+              }
+            ]
+          },
+          "on": "books.author = $self",
+          "@cds.persistence.name": "BOOKS"
+        }
+      },
+      "@cds.persistence.name": "BE_TVC_LOGISTIC_AUTHORS"
+    },
+    "be.tvc.logistic.Orders": {
+      "kind": "entity",
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID",
+          "@cds.persistence.name": "ID"
+        },
+        "book": {
+          "type": "cds.Association",
+          "target": "be.tvc.logistic.Books",
+          "foreignKeys": {
+            "ID": {
+              "path": "ID",
+              "generatedFieldName": "book_ID",
+              "@cds.persistence.name": "ID"
+            }
+          },
+          "@cds.persistence.name": "BOOK"
+        },
+        "buyer": {
+          "type": "cds.String",
+          "@cds.persistence.name": "BUYER"
+        },
+        "date": {
+          "type": "cds.DateTime",
+          "@cds.persistence.name": "DATE"
+        },
+        "amount": {
+          "type": "cds.Integer",
+          "@cds.persistence.name": "AMOUNT"
+        },
+        "book_ID": {
+          "type": "cds.Integer",
+          "@odata.foreignKey4": "book",
+          "@cds.persistence.name": "BOOK_ID"
+        }
+      },
+      "@cds.persistence.name": "BE_TVC_LOGISTIC_ORDERS"
+    }
+  },
+  "version": {
+    "creator": "CDS Compiler v1.1.2",
+    "csn": "0.1.0"
+  },
+  "@sql_mapping": "plain"
+}

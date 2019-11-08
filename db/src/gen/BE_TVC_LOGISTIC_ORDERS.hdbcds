@@ -1,0 +1,9 @@
+using BE_TVC_LOGISTIC_BOOKS as BE_TVC_LOGISTIC_BOOKS;
+entity BE_TVC_LOGISTIC_ORDERS {
+  key ID : String(36);
+  BOOK : association to BE_TVC_LOGISTIC_BOOKS on BOOK.ID = BOOK_ID;
+  BUYER : String(5000);
+  DATE : UTCDateTime;
+  AMOUNT : Integer;
+  BOOK_ID : Integer;
+};

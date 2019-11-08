@@ -1,0 +1,8 @@
+using BE_TVC_LOGISTIC_AUTHORS as BE_TVC_LOGISTIC_AUTHORS;
+entity BE_TVC_LOGISTIC_BOOKS {
+  key ID : Integer;
+  TITLE : String(5000);
+  AUTHOR : association to BE_TVC_LOGISTIC_AUTHORS on AUTHOR.ID = AUTHOR_ID;
+  STOCK : Integer;
+  AUTHOR_ID : Integer;
+};
